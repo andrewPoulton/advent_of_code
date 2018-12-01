@@ -3,7 +3,7 @@ fname="inputs/day1.txt"
 
 #Part 1
 global freqs = []
-global start = 0
+start = 0
 open(fname,"r") do f
     global start
     for line in eachline(f)
@@ -17,10 +17,7 @@ end
 
 
 #Part 2
-seen_frequencies = cumsum(freqs)
 seen = Dict{Int64, Int64}()
-start = 0
-# global iters = 0
 keep_going = true
 current_freq = 0
 while keep_going
@@ -36,7 +33,4 @@ while keep_going
             seen[current_freq] = i
         end
     end
-    # if exit_flag
-    #     break
-    # end
 end
