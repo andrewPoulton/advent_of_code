@@ -1,9 +1,11 @@
 using Printf
+using Utils: readInput
 fname="inputs/day1.txt"
 
 #Part 1
-global freqs = []
+freqs = []
 start = 0
+frequencies = map((x) -> parse(Int,x), readInput(1))
 open(fname,"r") do f
     global start
     for line in eachline(f)
@@ -14,6 +16,7 @@ open(fname,"r") do f
 end
 @printf "The answer to part one is %d\n" sum(freqs)
 @printf "The answer to part one is also %d\n" start
+@printf "The answer to part one is also possibly %d\n" sum(frequencies)
 
 
 #Part 2
