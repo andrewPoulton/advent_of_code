@@ -1,39 +1,35 @@
 using Printf
 using Utils: readInput
-fname="inputs/day1.txt"
 
-#Part 1
-freqs = []
-start = 0
-frequencies = map((x) -> parse(Int,x), readInput(1))
-open(fname,"r") do f
-    global start
-    for line in eachline(f)
-        val = parse(Int, line)
-        push!(freqs, val)
-        start+=val
-    end
+
+function day1part1()
+    frequencies = map((x) -> parse(Int64,x), readInput(1))
+    answer = sum(frequencies)
+    return "The answer to part one is also possibly $answer"
 end
-@printf "The answer to part one is %d\n" sum(freqs)
-@printf "The answer to part one is also %d\n" start
-@printf "The answer to part one is also possibly %d\n" sum(frequencies)
 
 
-#Part 2
-seen = Dict{Int64, Int64}()
-keep_going = true
-current_freq = 0
-while keep_going
-    global current_freq
-    global keep_going
-    for (i, freq) in enumerate(freqs)
-        current_freq += freq
-        if haskey(seen, current_freq)
-            println("Answer to part two is $current_freq, seen first at index $i")
-            keep_going = false
-            break
-        else
-            seen[current_freq] = i
+@time day1part1()
+println(day1part1())
+
+function day1part2()
+    frequencies = map((x) -> parse(Int64,x), readInput(1))
+    local current_freq = 0
+    local seen = Set{Int64}()
+    local keep_going = true
+    local iters = 0
+    while keep_going
+        for (i, freq) in enumerate(frequencies)
+            current_freq += freq
+            if in(current_freq, seen)
+                return "Answer is $current_freq, found at index $i, after $iters iterations"
+            end
+            push!(seen, current_freq)
         end
+        iters += 1
     end
+    return length(seen)
 end
+
+@time day1part2()
+println(day1part2())
