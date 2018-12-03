@@ -1,6 +1,6 @@
 module Utils
 
-export readInput, counter, oneLetterDifferent
+export readInput, counter, oneLetterDifferent, getRectangle
 
 function readInput(day::Int64)
     fname = "inputs/day$day.txt"
@@ -38,6 +38,21 @@ function oneLetterDifferent(text1::String, text2::String)
         end
     end
     return [true, diff_loc]
+end
+
+function getRectangle(claim::String)
+    #Used in 2018 day3 part1
+    left, top, width, height = map((x)->parse(Int,x), match(r"(\d+),(\d+): (\d+)x(\d+)", claim).captures)
+    #Bloody 1-indexing
+    exes = (left+1):(left+width)
+    whys = (top+1):(top+height)
+    out = []
+    for x in exes
+        for y in whys
+            push!(out, (x,y))
+        end
+    end
+    return out
 end
 
 end
