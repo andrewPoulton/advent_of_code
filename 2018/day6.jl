@@ -10,7 +10,12 @@ testdata = split("""1, 1
 println(testdata)
 println(sort(testdata))
 
-ipt = readInput(6)
+ipt = readInput(6, 2018)
+
+struct Pt
+    x::Int64
+    y::Int64
+end
 
 manhattenDist(x, y) = abs(x[1] - y[1]) + abs(x[2]- y[2])
 strtopoint(x) = map((y)-> parse(Int,y), split(x,", "))
@@ -50,6 +55,28 @@ end
 
 # end
 
+ccw(p1,p2,p3) = (p2[1]-p1[1])*(p3[2]-p1[2]) - (p2[2]-p1[2])*(p3[1]-p1[1])
+dot(x,y) = sum(x.*y)/sqrt(sum(x.^2) * sum(y.^2))
+function graham(points)
+    min_y = [-1000,-1000]
+    for p in points
+        if p[2] > min_y[2]
+            min_y = p
+        end
+    end
+    sort!(points, by = x->dot(x,min_y), rev=true)
+    ch = []
+    push!(ch, points[1])
+    push!(ch, points[2])
+    for i in 2:(length(points)-1)
+        while length(ch) >=2 && ccw(ch[end-1], ch[end], points[i]) <= 0
+            pop!(ch)
+        end
+        push!(ch,points[i])
+    end
+    return ch
+end
+println(graham(f))
 
 function printGrid(points)
     min_x = minimum([p[1] for p in points])
@@ -59,9 +86,12 @@ function printGrid(points)
     width = max_x - min_x + 1
     height = max_y - min_y + 1
     println(width, height)
+    ch = graham(points)
     for j in 1:height
         for i in 1:width
-            if in([i+min_x-1,j+min_y-1], points)
+            if in([i+min_x-1,j+min_y-1], ch)
+                print("A")
+            elseif in([i+min_x-1,j+min_y-1], points)
                 print("*")
             else
                 print(".")

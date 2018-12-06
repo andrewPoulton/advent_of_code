@@ -2,8 +2,8 @@ module Utils
 
 export readInput, counter, oneLetterDifferent, getRectangle
 
-function readInput(day::Int64)
-    fname = "inputs/day$day.txt"
+function readInput(day::Int64, year::Int64)
+    fname = "/Users/andy/advent_of_code/$year/inputs/day$day.txt"
     local outArray
     open(fname, "r") do f
         outArray = readlines(f)
