@@ -12,11 +12,14 @@ function day3bothparts(claims)
         for rect in rects
             square = A[rect[1], rect[2]]
             if square == -1
+                #Already multiply claimed square
                 overlapped[i] = 1
                 continue
             elseif square == 0
+                #First claim of square
                 A[rect[1], rect[2]] = i
             else
+                #Second claim of square
                 A[rect[1], rect[2]] = -1
                 overlapping_squares += 1
                 overlapped[square] = 1
