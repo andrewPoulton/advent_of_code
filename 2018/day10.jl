@@ -60,6 +60,7 @@ function main()
         l = tick(i, locations, vel)
         if getGridArea(l) <  1000
             locations = l
+            println("Found at second $i")
             break
         end
     end
