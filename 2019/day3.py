@@ -1,9 +1,4 @@
 import utils
-i = utils.get_input(3)
-i
-t = ["R75,D30,R83,U83,L12,D49,R71,U7,L72","U62,R66,U55,R34,D71,R55,D58,R83"]
-t=[i.split(',') for i in t]
-
 
 def to_segments(paths):
     segments = []
@@ -54,15 +49,6 @@ def intersection_points_with_steps(p1,p2):
                 steps.append([i,j])
     return ip, steps
 
-input = utils.get_input(3)
-input = [to_segments(i.split(',')) for i in input]
-
-intersections, steps = intersection_points_with_steps(*input)
-
-dists = [(abs(intersection[0])+abs(intersection[1])) for intersection in intersections]
-first_star = min(dists)
-
-
 def manhatten(p1, p2):
     return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
 
@@ -73,7 +59,21 @@ def steps_to_intersection(step, intersection, segments):
     second_wire_steps = sum([int(seg[2][1:]) for seg in segments[1][:j]])
     second_wire_steps += manhatten(segments[1][j][0], intersection)
     return first_wire_steps + second_wire_steps
-    
-second_star = steps_to_intersection(steps[0], intersections[0], input)
+
+input = utils.get_input(3)
+input = [to_segments(i.split(',')) for i in input]
+
+intersections, steps = intersection_points_with_steps(*input)
+dists = [manhatten(intersection, (0,0)) for intersection in intersections]
+first_star = min(dists)
+
+
+min_step = 1e5
+min_step_idx = 0
+for i, step in enumerate(steps):
+    if step[0] + step[1] < min_step:
+        min_step_idx = i
+        min_step = step[0] + step[1]
+second_star = steps_to_intersection(steps[min_step_idx], intersections[min_step_idx], input)
 
 utils.print_result(first_star, second_star)
