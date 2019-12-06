@@ -47,10 +47,11 @@ def min_dist(me, santa, tree):
         if santa_next:
             santa_path[santa_next] = step_count
             santa_node = tree[santa_next]
-        if my_next in santa_path:
+        if (my_next in santa_path) or (santa_next in my_path):
+            nearest_common = my_next if my_next in santa_path else santa_next
             break
         step_count += 1
-    return my_path, santa_path, my_next
+    return my_path, santa_path, nearest_common
 
 my_path, santa_path, nearest_common = min_dist('YOU', 'SAN', orbit_tree)
 second_star = my_path[nearest_common] + santa_path[nearest_common]
