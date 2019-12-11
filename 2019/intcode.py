@@ -4,7 +4,7 @@ class Intcode:
         self._input = []
         self.ptr = 0
         self.relative_base = 0
-        self.input_ptr = 0
+        self.input_ptr = -1
         self.halted = False
         self.awaiting_input = False
         self.output = []
@@ -70,29 +70,33 @@ class Intcode:
         self.ptr += 4
     
     def opcode_3(self, parameters):
-        values = self.interpret_parameters(parameters[:1])
+        # import pdb; pdb.set_trace()
+        values = self.interpret_parameters(parameters)
         try:
             val = self._input[self.input_ptr]
             self.input_ptr += 1
-            self.program[values[0]] = val
-            self.ptr += 2
         except IndexError:
             self.awaiting_input = True
+        if not self.awaiting_input:
+            self.program[values[0]] = val
+            self.ptr += 2
+            self.awaiting_input = False
+
         
     def opcode_4(self, parameters):
-        values = self.interpret_parameters(parameters[:1])
+        values = self.interpret_parameters(parameters)
         self.output.append(values[0])
         self.ptr += 2
 
     def opcode_5(self, parameters):
-        values = self.interpret_parameters(parameters[:2])
+        values = self.interpret_parameters(parameters)
         if values[0] != 0:
             self.ptr = values[1]
         else:
             self.ptr += 3
 
     def opcode_6(self, parameters):
-        values = self.interpret_parameters(parameters[:2])
+        values = self.interpret_parameters(parameters)
         if values[0] == 0:
             self.ptr = values[1]
         else:
@@ -111,20 +115,31 @@ class Intcode:
         self.ptr += 4
 
     def opcode_9(self, parameters):
-        values = self.interpret_parameters(parameters[:1])
+        values = self.interpret_parameters(parameters)
         self.relative_base += values[0]
         self.ptr += 2
 
     def opcode_99(self, parameters):
         self.halted = True
 
+    def run_single_instruction(self, _input = None):
+        if not _input is None:
+            self._input += _input
+        params = self.program[self.ptr:self.ptr+4]
+        opcode, parameters = self.parse_instruction(*params)
+        # print(self.input_ptr, self.ptr, opcode)
+        self.op_dict[opcode](parameters)
+
     def run(self, _input = None):
         if not _input is None:
             self._input += _input
-        while not self.halted:
-            params = self.program[self.ptr:self.ptr+4]
-            opcode, parameters = self.parse_instruction(*params)
-            self.op_dict[opcode](parameters)
+            self.awaiting_input = False
+        while (not self.halted) and (not self.awaiting_input):
+            self.run_single_instruction()
+        if self.awaiting_input:
+            return 1
+        elif self.halted:
+            return 0
 
 
 
