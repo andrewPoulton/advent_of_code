@@ -166,7 +166,7 @@ impl<'a> Iterator for PassPortList<'a> {
     }
 }
 
-fn parse_line<'a, 'b>(line: String, mut map: HashMap<String, String>)->HashMap<String, String>{
+fn parse_line(line: String, mut map: HashMap<String, String>)->HashMap<String, String>{
     line.split_whitespace()
     .fold(map, |mut acc, field| -> HashMap<String, String> {
         let key_value: Vec<&str> = field.split(':').collect();
