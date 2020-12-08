@@ -1,11 +1,10 @@
 use std::env;
 use aoc_2020::*;
 
-
+// use std::collections::{HashMap, HashSet};
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    day6(&args[1]);
+    day7(&args[1]);
 }
-

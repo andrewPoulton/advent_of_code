@@ -27,6 +27,7 @@ struct GroupAnswer{
     answers: HashMap<char, usize>,
     size: usize
 }
+
 impl GroupAnswer {
     fn answered_by_all(&self)->i32{
         self.answers.values().fold(0, |mut acc, val|{
