@@ -10,7 +10,7 @@ pub fn day8(filename: &String){
     let mut visited: HashSet<i32> = HashSet::new();
     
     let mut part2_ans: Option<i32> = None;
-    // let mut 
+    
     loop {
         let instruction = contents[ptr as usize].to_owned();
         let vals: Vec<&str> = instruction.split(' ').collect();
@@ -33,16 +33,12 @@ pub fn day8(filename: &String){
             }
             _ => {
                 let nop_val= vals[1].parse::<i32>().unwrap();
-                match part2_ans {
-                    Some(x) => (),
-                    None => {
-                        if nop_val != 0 {
-                            part2_ans = branch(ptr+nop_val, &contents, &visited, &acc);
-                        }
+                if let None = part2_ans {
+                    if nop_val != 0 {
+                        part2_ans = branch(ptr+nop_val, &contents, &visited, &acc);
                     }
                 }
                 ptr += 1;
-                
             }
         };
         if visited.contains(&ptr){
@@ -58,8 +54,6 @@ pub fn day8(filename: &String){
 fn branch(ptr: i32, contents: &Vec<String>, visited: &HashSet<i32>, acc: &i32)->Option<i32>{
     let mut new_ptr: i32 = ptr;
     let mut new_acc: i32 = *acc;
-    // let mut negjmp: i32 = 0;
-    // let mut nops: i32 = 0;
     let mut new_visited: HashSet<i32> = HashSet::new();
     new_visited.insert(new_ptr);
     while new_ptr < contents.len() as i32 {
@@ -73,12 +67,9 @@ fn branch(ptr: i32, contents: &Vec<String>, visited: &HashSet<i32>, acc: &i32)->
             "jmp" => {
                 let jmp_val= vals[1].parse::<i32>().unwrap();
                 new_ptr += jmp_val;
-                // negjmp += if jmp_val < 0 {1} else {0};
             }
             _ => {
                 new_ptr += 1;
-                // let nop_val= vals[1].parse::<i32>().unwrap();
-                // nops += if nop_val == 0 {0} else {1};
             }
         };
         if visited.contains(&new_ptr) | new_visited.contains(&new_ptr) | (new_ptr < 0){

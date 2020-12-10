@@ -75,9 +75,9 @@ fn encryption_weakness(nums: &Vec<i64>, target: i64)->&[i64]{
         i += 1;
         idx = binary_search_slice(&prefix_sums[i..], target);
     };
-    let j = idx.unwrap();
-    let answer_slice = &nums[i..i+j];
-    answer_slice
+    
+    &nums[i..idx.unwrap()+i]
+    
 }
 
 fn binary_search_slice(slice: &[i64], target: i64) -> Option<usize> {
