@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::time::Instant;
 use crate::utils::file2vec;
 
 pub fn day1(filename: &String)->(){
@@ -24,7 +25,7 @@ pub fn day1(filename: &String)->(){
             break
         }
     }
-    
+    let start = Instant::now();
     let mut part2_solution: Option<i32> = None;
     contents.sort();
     for i in 0..contents.len()-2 {
@@ -51,6 +52,7 @@ pub fn day1(filename: &String)->(){
             break
         }
     }
+    println!("3sum took {:?}", start.elapsed());
     
 
     println!("Day 1 Part 1: {}", part1_solution.unwrap_or(-1));

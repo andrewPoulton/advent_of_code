@@ -42,6 +42,12 @@ pub fn day9(filename:&String){
     let duration = start.elapsed();
     println!("Part 2 ans is {}", min+max);
     println!("time taken: {:?}", duration);
+
+    let start = Instant::now();
+    let ans = n_squared_but_faster(&contents, invalid_number);
+    let duration = start.elapsed();
+    println!("Part 2 ans is {}", ans);
+    println!("time taken: {:?}", duration);
 }
 
 fn two_sum(q: &VecDeque<i64>, sum:i64)->bool{
@@ -95,4 +101,32 @@ fn binary_search_slice(slice: &[i64], target: i64) -> Option<usize> {
         }
     };
     None
+}
+
+fn n_squared_but_faster(nums: &Vec<i64>, target: i64)->i64{
+    let mut start: usize = 0;
+    let mut end: usize = 2;
+    let mut sum = nums[0];
+    while (start<end) & (end<nums.len()){
+        if sum == target {
+            break
+        } else if sum < target {
+            sum += nums[end];
+            end +=1 ;
+        } else{
+            sum -= nums[start];
+            start +=1;
+            if end-start ==1{
+                end+=1;
+            }
+        }
+    };
+    let slice = &nums[start..end];
+    let mut min: i64 = std::i64::MAX;
+    let mut max: i64 = std::i64::MIN;
+    for x in slice {
+        min = min.min(*x);
+        max = max.max(*x);
+    };
+    min + max
 }

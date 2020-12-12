@@ -1,7 +1,7 @@
 use std::env;
 use aoc_2020::*;
 
-use std::time::{Duration, Instant};
+use std::time::{Instant};
 
 fn main() {
     let args: Vec<String> = env::args().collect();

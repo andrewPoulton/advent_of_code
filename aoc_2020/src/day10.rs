@@ -28,7 +28,7 @@ pub fn day10(filename: &String){
     let start = Instant::now();
     diffs.push(3); // diff of 3 for device
 
-    let mut slice: &[i32];
+    
     let mut idx:usize = 0;
     let mut ans:i64 = 1;
     while idx < diffs.len()-1{
@@ -38,8 +38,8 @@ pub fn day10(filename: &String){
         while let 1 = diffs[j] {
             j+=1;
         }
-        slice = &diffs[idx..j+1];
-        match slice.len(){
+        
+        match j-idx+1{
             6 => ans *=7, //3,1,1,1,1,3 => 7 possible reformulations
             5 => ans *=4, // 3,1,1,1,3 => 4 possible reformulations
             4 => ans *= 2, // 3,1,1,3 => 2 possible reformulations
