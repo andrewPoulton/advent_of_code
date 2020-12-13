@@ -22,6 +22,8 @@ mod day11;
 pub use crate::day11::day11;
 mod day12;
 pub use crate::day12::day12;
+mod day13;
+pub use crate::day13::day13;
 mod utils;
 pub use crate::utils::*;
 
