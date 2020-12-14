@@ -1,38 +1,8 @@
-use std::env;
-use aoc_2020::*;
-
-use std::time::{Instant};
 use std::collections::HashMap;
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let start = Instant::now();
-    let fname = format!("src/day{}.txt", args[1]);
-    match &args[1][..]{
-        "1" => day1(&fname),
-        "2" => day2(&fname),
-        "3" => day3(&fname),
-        "4" => day4(&fname),
-        "5" => day5(&fname),
-        "6" => day6(&fname),
-        "7" => day7(&fname),
-        "8" => day8(&fname),
-        "9" => day9(&fname),
-        "10" => day10(&fname),
-        "11" => day11(&fname),
-        "12" => day12(&fname),
-        "13" => day13(&fname),
-        "14" => day14(&fname),
-        "test.txt" => day14(&"test.txt".to_string()),
-        _ => {
-            println!("Day {} is not a thing yet, or ever", args[1]);
-        }
-    };
-    let duration = start.elapsed();
-    println!("overall it took {:?}", duration);
-}
- 
-fn day14(filename: &String){
+use crate::utils::file2vec;
+
+pub fn day14(filename: &String){
     let contents = file2vec::<String>(filename);
     let contents:Vec<String> = contents.iter().map(|x| x.to_owned().unwrap()).collect();
 
@@ -111,7 +81,7 @@ fn get_addresses(mem: &str, mask: &str) -> Vec<i64>{
                 }
             },
             'X' => {
-                // println!("{:?}", ans);
+    
                 let l = ans.len();
                 for i in 0..l {
                     let mut branch = ans[i].clone();

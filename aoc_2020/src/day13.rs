@@ -42,7 +42,7 @@ pub fn day13(filename: &String){
     // then x % n_j == -i_j for all j, as desired
     // we need the least positive X satisfying (*), and since all bus ids are prime, x is a residue mod Prod_j n_j = bus_prod
     // so the least positive X is bus_prod - (x% bus_prod) since we actually compute -x from (**), not x
-    // we compute (**) in a double loop (so we are O(buses^2)), 
+    // we compute (**) in a double loop (so we are O(buses^2 * max(bus)) - `get_mult_inverse` is O(bus)), 
     // I don't think the inner product can be less than O(buses) as we need to find inverses as well as the products.
     let mut offset: i128 = 0;
     let mut bus_prod = 1 as i128;
