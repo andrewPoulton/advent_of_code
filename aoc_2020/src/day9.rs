@@ -46,7 +46,7 @@ pub fn day9(filename:&String){
     let start = Instant::now();
     let ans = n_squared_but_faster(&contents, invalid_number);
     let duration = start.elapsed();
-    println!("Part 2 ans is {}", ans);
+    println!("Part 2 faster but more complex is {}", ans);
     println!("time taken: {:?}", duration);
 }
 
@@ -105,7 +105,7 @@ fn binary_search_slice(slice: &[i64], target: i64) -> Option<usize> {
 
 fn n_squared_but_faster(nums: &Vec<i64>, target: i64)->i64{
     let mut start: usize = 0;
-    let mut end: usize = 2;
+    let mut end: usize = 1;
     let mut sum = nums[0];
     while (start<end) & (end<nums.len()){
         if sum == target {
