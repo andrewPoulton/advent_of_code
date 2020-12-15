@@ -1,5 +1,6 @@
 use crate::utils::file2vec;
 use std::collections::HashMap;
+use std::time::Instant;
 
 pub fn day15(filename: &String){
     let contents = file2vec::<String>(filename);
@@ -20,7 +21,13 @@ pub fn day15(filename: &String){
         *count += 1;
         seen.push(*num);
     }
-    while turns < 30_000_000{
+    let (p1, p2) = faster_more_memory(&start_list, prev as usize, 30_000_000, 2020);
+    println!("part 1 ans: {}\npart 2 ans: {}", p1, p2);
+    
+    //Saving below for posterity - my initial slower solution. Took about 2s when built for release (30s otherwise)
+    // Only major difference is that we index into a hashmap rather than an array - those constants matter!
+
+    /*while turns < 30_000_000{
         turns += 1;
         match map.get(&prev){
             Some((prev_turn, count)) => {
@@ -55,6 +62,32 @@ pub fn day15(filename: &String){
     }
 
     println!("part 2 ans: {}", prev);
+    let start = Instant::now();
+    println!("{}, took {:?}", p1, start.elapsed());*/
     
-    
+}
+
+fn faster_more_memory(nums: &Vec<i32>, last: usize, n_turns: usize, p1_turns: usize)-> (usize, usize) {
+    let mut buffer = vec![0;n_turns];
+    let mut turns:usize = 1;
+    let mut p1_ans = 0;
+    for num in nums[..nums.len()-1].iter(){
+        buffer[*num as usize] = turns;
+        turns += 1;
+    }
+    let mut prev = last;
+    let mut cur: usize = 0;
+    while turns < n_turns {
+        cur = turns - buffer[prev];
+        if cur == turns {
+            cur = 0;
+        }
+        buffer[prev] = turns;
+        prev = cur;
+        turns += 1;
+        if turns == 2020{
+            p1_ans = cur;
+        }
+    }
+    (cur, p1_ans)
 }
