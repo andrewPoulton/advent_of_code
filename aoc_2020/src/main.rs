@@ -24,9 +24,10 @@ fn main() {
         "13" => day13(&fname),
         "14" => day14(&fname),
         "15" => day15(&fname),
-        "test.txt" => day15(&"test.txt".to_string()),
+        "16" => day16(&fname),
+        "test.txt" => day16(&"test.txt".to_string()),
         _ => {
-            println!("Day {} is not a thing yet, or ever", args[1]);
+            println!("Day {} is not a potential_fields yet, or ever", args[1]);
         }
     };
     let duration = start.elapsed();
