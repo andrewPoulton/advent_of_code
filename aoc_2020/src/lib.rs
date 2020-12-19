@@ -30,6 +30,12 @@ mod day15;
 pub use crate::day15::day15;
 mod day16;
 pub use crate::day16::day16;
+mod day17;
+pub use crate::day17::day17;
+mod day18;
+pub use crate::day18::day18;
+mod day18_assist;
+pub use crate::day18_assist::calculate;
 mod utils;
 pub use crate::utils::*;
 

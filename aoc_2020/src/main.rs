@@ -25,11 +25,43 @@ fn main() {
         "14" => day14(&fname),
         "15" => day15(&fname),
         "16" => day16(&fname),
-        "test.txt" => day16(&"test.txt".to_string()),
+        "17" => day17(&fname),
+        "18" => day18(&fname),
+        "19" => day19(&fname),
+        "test.txt" => day19(&"test.txt".to_string()),
         _ => {
             println!("Day {} is not a potential_fields yet, or ever", args[1]);
         }
     };
     let duration = start.elapsed();
     println!("overall it took {:?}", duration);
+
+    
+}
+
+use std::collections::HashMap;
+pub fn day19(filename: &String){
+    let contents = file2vec::<String>(filename);
+    let contents:Vec<String> =  contents.iter().map(|x| x.to_owned().unwrap()).collect();
+    let mut rules  = HashMap::new();
+    let mut messages = Vec::new();
+    for line in &contents{
+        if line.contains(':') {
+            let mut key = "";
+            // let mut key = String::from("");
+            for (i, s) in line.split(':').enumerate(){
+                if i == 0 {
+                    key = s;
+                } else {
+                    rules.insert(key.to_owned(), s.trim().to_owned());
+                }
+            }
+        } else if line.len()>0{
+            messages.push(line.to_owned());
+        };
+    };
+
+    println!("{:?}", rules);
+    println!("{:?}", messages);
+
 }

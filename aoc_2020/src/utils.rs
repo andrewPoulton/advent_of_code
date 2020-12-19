@@ -9,36 +9,36 @@ pub fn file2vec<T: FromStr>(filename: &String)->Vec<Result<T, T::Err>>{
     .map(|x: &str| x.parse::<T>())
     .collect()
 } 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Token {
+    Atom(char),
+    Op(char),
+    Eof,
+}
 
-// pub struct GappyList<'a, T>{
-//     list: &'a Vec<String>,
-//     ptr: usize,
-//     size: usize,
-//     parse: fn(&String)->T
-// }
+pub struct Lexer {
+    tokens: Vec<Token>,
+}
 
+impl Lexer {
+    fn new(input: &str) -> Lexer {
+        let mut tokens = input
+            .chars()
+            .filter(|it| !it.is_ascii_whitespace())
+            .map(|c| match c {
+                '0'..='9' |
+                'a'..='z' | 'A'..='Z' => Token::Atom(c),
+                _ => Token::Op(c),
+            })
+            .collect::<Vec<_>>();
+        tokens.reverse();
+        Lexer { tokens }
+    }
 
-// impl<'a> Iterator for PassPortList<'a> {
-//     type Item = PassPort;
-
-//     fn next(&mut self) -> Option<Self::Item> {
-//         match self.ptr {
-//             x if x<self.size => {
-//                 let mut map = HashMap::new();
-//                 let mut row = self.passports[self.ptr].to_owned();
-//                 while row != "" {
-//                     map = parse_line(row, map);
-//                     self.ptr += 1;
-//                     if self.ptr == self.size {
-//                         break
-//                     }
-//                     row = self.passports[self.ptr].to_owned();
-//                 };
-//                 self.ptr += 1;
-//                 Some(PassPort::from_dict(map))
-//             },
-//             _ => None
-//         }
-        
-//     }
-// }
+    fn next(&mut self) -> Token {
+        self.tokens.pop().unwrap_or(Token::Eof)
+    }
+    fn peek(&mut self) -> Token {
+        self.tokens.last().copied().unwrap_or(Token::Eof)
+    }
+}
