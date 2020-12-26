@@ -32,7 +32,9 @@ fn main() {
         "20" => day20(&fname),
         "21" => day21(&fname),
         "22" => day22(&fname),
-        "test.txt" => day22(&"test.txt".to_string()),
+        "24" => day24(&fname),
+        "25" => day25(&fname),
+        "test.txt" => day24(&"test.txt".to_string()),
         _ => {
             println!("Day {} is not a potential day yet, or ever", args[1]);
         }
@@ -242,3 +244,4 @@ struct GameResult{
     cause: Cause,
     score: i32
 }
+
