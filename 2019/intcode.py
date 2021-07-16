@@ -4,7 +4,7 @@ class Intcode:
         self._input = []
         self.ptr = 0
         self.relative_base = 0
-        self.input_ptr = -1
+        self.input_ptr = 0
         self.halted = False
         self.awaiting_input = False
         self.output = []
@@ -77,6 +77,8 @@ class Intcode:
             self.input_ptr += 1
         except IndexError:
             self.awaiting_input = True
+            if self.input_ptr < 0:
+                self.input_ptr
         if not self.awaiting_input:
             self.program[values[0]] = val
             self.ptr += 2

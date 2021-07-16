@@ -78,8 +78,8 @@ def second_star_answer(_input):
     return axis_periods
 
 _input = utils.get_input(12)
-dynamics= get_dynamics(eg)
+dynamics= get_dynamics(_input)
 first_star = first_star_answer(dynamics)
-second_stars = second_star_answer(eg)
+second_stars = second_star_answer(_input)
 second_star = np.lcm(np.lcm(*second_stars[:2]), second_stars[2])
 utils.print_result(first_star, second_star)
